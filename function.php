@@ -18,3 +18,16 @@ function getThisMomentMonthsAgo ($time, $num) {
     $day = min([$thisDay, $lastMonthDays, $monthDays]);
     return strtotime($lastYear.'-'.$lastMonth.'-'.$day.' '.date('H:i:s',$time));
 }
+
+                       
+// 前几个月的此刻 
+function getThisMomentMonthsAgo ($time, $value) {
+    $datetime = new \DateTime(date('Y-m-d H:i:s',$time));
+    $day = $datetime->format('j');
+
+    $datetime->modify("{$value} month");
+    if ($day !== $datetime->format('j')) {
+        $datetime->modify('last day of previous month');
+    }
+    return $datetime->getTimestamp();
+}
